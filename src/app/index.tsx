@@ -1,17 +1,32 @@
-import React from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import React from "react";
+import { Text, View, StyleSheet, FlatList } from "react-native";
+import { Header } from "../components/Header";
+import { CategoryButton } from "../components/CaterogyButton";
+import { CATEGORIES } from "../utils/data/products";
 
 export default function App() {
+  const categories = CATEGORIES;
   return (
     <View style={styles.container}>
-      <Text>Hello React Native</Text>
+      <Header title="Cardápio" />
+      <CategoryButton title="Todos" />
+      <FlatList
+        data={categories}
+        renderItem={({ item }) => {
+          return <CategoryButton title={item} />;
+        }}
+      />
     </View>
   );
 }
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    paddingHorizontal: 15,
+  },
+  text: {
+    color: "#FFFFFF",
+    fontSize: 24,
+    fontFamily: "Inter_700Bold",
   },
 });

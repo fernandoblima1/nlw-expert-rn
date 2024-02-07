@@ -1,11 +1,26 @@
-import { View, StyleSheet } from 'react-native';
-import { SafeAreaView } from 'react-native';
-import { Slot } from 'expo-router';
+import { View, StyleSheet } from "react-native";
+import { SafeAreaView } from "react-native";
+import {
+  Inter_700Bold,
+  Inter_400Regular,
+  Inter_900Black,
+  Inter_300Light,
+  useFonts,
+} from "@expo-google-fonts/inter";
+import { Slot } from "expo-router";
+import { Loading } from "../components/Loading";
 
 export default function Layout() {
+  const [fontsLoaded] = useFonts({
+    Inter_700Bold,
+    Inter_400Regular,
+    Inter_900Black,
+    Inter_300Light,
+  });
+
   return (
-    <SafeAreaView>
-      <Slot />
+    <SafeAreaView style={styles.container}>
+      {fontsLoaded ? <Slot /> : <Loading />}
     </SafeAreaView>
   );
 }
@@ -13,7 +28,6 @@ export default function Layout() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: "#0F172A",
   },
 });
