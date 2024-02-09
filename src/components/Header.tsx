@@ -1,12 +1,13 @@
 import { Text, View, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { Feather } from "@expo/vector-icons";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 type HeaderProps = {
   title: string;
+  cardQuantityItems: number;
 };
 
-export const Header = ({ title }: HeaderProps) => {
-  const [itemsCounter, setItemsCounter] = useState(0);
+export const Header = ({ title, cardQuantityItems }: HeaderProps) => {
+  const [itemsCounter, setItemsCounter] = useState(cardQuantityItems);
 
   return (
     <View style={styles.header}>

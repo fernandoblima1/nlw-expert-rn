@@ -1,9 +1,11 @@
 import { View, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native";
+import { Montserrat_700Bold } from "@expo-google-fonts/montserrat";
 import {
   Inter_700Bold,
   Inter_400Regular,
   Inter_900Black,
+  Inter_600SemiBold,
   Inter_300Light,
   useFonts,
 } from "@expo-google-fonts/inter";
@@ -15,7 +17,9 @@ export default function Layout() {
     Inter_700Bold,
     Inter_400Regular,
     Inter_900Black,
+    Inter_600SemiBold,
     Inter_300Light,
+    Montserrat_700Bold,
   });
 
   return (

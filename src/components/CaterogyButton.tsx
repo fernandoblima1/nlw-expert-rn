@@ -1,4 +1,3 @@
-import { Inter_600SemiBold } from "@expo-google-fonts/inter";
 import { Text, Pressable, PressableProps, StyleSheet } from "react-native";
 
 type CategoryButtonProps = PressableProps & {
@@ -12,17 +11,14 @@ export const CategoryButton = ({
   ...rest
 }: CategoryButtonProps) => {
   return (
-    <Pressable {...rest} style={styles.category}>
-      <Text
-        style={[
-          styles.text,
-          isSelected
-            ? { fontFamily: "Inter_600SemiBold" }
-            : { fontFamily: "Inter_400Regular" },
-        ]}
-      >
-        {title}
-      </Text>
+    <Pressable
+      {...rest}
+      style={[
+        styles.category,
+        isSelected && { borderColor: "#C3FF53", borderWidth: 1 },
+      ]}
+    >
+      <Text style={[styles.text]}>{title}</Text>
     </Pressable>
   );
 };
@@ -32,11 +28,11 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 5,
     backgroundColor: "#010111",
-    borderColor: "#C3FF53",
-    borderWidth: 0.5,
+    height: 40,
   },
   text: {
     color: "#FFFFFF",
+    fontFamily: "Inter_400Regular",
     fontSize: 16,
   },
 });
