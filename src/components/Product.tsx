@@ -29,9 +29,19 @@ export const Product = forwardRef<TouchableOpacity, ProductProps>(
       style={styles.product}
     >
       <Image style={styles.image} source={data.thumbnail} />
-      <View style={styles.infos}>
-        <Text style={styles.title}>{data.title}</Text>
-        <Text style={styles.description}>{data.description}</Text>
+      <View
+        style={{
+          flex: 1,
+          flexDirection: "row",
+          justifyContent: "center",
+          alignItems: "flex-start",
+        }}
+      >
+        <View style={styles.infos}>
+          <Text style={styles.title}>{data.title}</Text>
+          <Text style={styles.description}>{data.description}</Text>
+        </View>
+        {data.quantity && <Text style={styles.quantity}>x{data.quantity}</Text>}
       </View>
     </TouchableOpacity>
   )
@@ -46,7 +56,7 @@ const styles = StyleSheet.create({
   },
   infos: {
     flex: 1,
-    justifyContent: "center",
+    alignSelf: "center",
     marginLeft: 10,
   },
   image: {
@@ -63,6 +73,11 @@ const styles = StyleSheet.create({
   price: {
     color: "#C3FF53",
     fontFamily: "Inter_400Regular",
+    fontSize: 16,
+  },
+  quantity: {
+    color: "#C3FF53",
+    fontFamily: "Montserrat_700Bold",
     fontSize: 16,
   },
   description: {

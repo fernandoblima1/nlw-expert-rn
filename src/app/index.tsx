@@ -12,6 +12,10 @@ export default function App() {
   const [selectedCategory, setSelectedCategory] = useState(categories[0]);
   const cartStore = useCartStore();
   const sectionListRef = useRef<SectionList>(null);
+  const totalItems = cartStore.products.reduce(
+    (acc, item) => acc + item.quantity,
+    0
+  );
   function handleSelectCategory(category: string) {
     setSelectedCategory(category);
 
@@ -27,7 +31,7 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <Header title="Cardápio" cardQuantityItems={cartStore.total} />
+      <Header title="Cardápio" cardQuantityItems={totalItems} />
       <FlatList
         horizontal
         data={categories}

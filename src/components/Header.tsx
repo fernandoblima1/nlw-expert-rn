@@ -1,14 +1,21 @@
 import { Text, View, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { Feather } from "@expo/vector-icons";
-import { useState } from "react";
+import React, { useState } from "react";
+import { Link } from "expo-router";
+import { useNavigation } from "expo-router";
 type HeaderProps = {
   title: string;
-  cardQuantityItems: number;
+  cardQuantityItems?: number | undefined;
+  backButton?: boolean | false;
 };
 
-export const Header = ({ title, cardQuantityItems }: HeaderProps) => {
-  const [itemsCounter, setItemsCounter] = useState(cardQuantityItems);
-
+export const Header = ({
+  title,
+  cardQuantityItems,
+  backButton,
+}: HeaderProps) => {
+  const [itemsCounter, setItemsCounter] = useState(cardQuantityItems || 0);
+  const history = useNavigation();
   return (
     <View style={styles.header}>
       <View style={styles.container}>
@@ -16,23 +23,43 @@ export const Header = ({ title, cardQuantityItems }: HeaderProps) => {
           style={styles.image}
           source={require("@/assets/images/logo.png")}
         />
-        <Text style={styles.title}>{title}</Text>
+        <View style={styles.titleHeader}>
+          {backButton && (
+            <TouchableOpacity
+              onPress={() => {
+                history.goBack();
+              }}
+            >
+              <Feather
+                name="chevron-left"
+                size={24}
+                style={{ marginRight: 10 }}
+                color="white"
+              />
+            </TouchableOpacity>
+          )}
+          <Text style={styles.title}>{title}</Text>
+        </View>
       </View>
-      <TouchableOpacity style={styles.cart} activeOpacity={0.5}>
-        {itemsCounter > 0 && (
-          <View style={styles.itemsCounter}>
-            <Text style={styles.counter}>
-              {itemsCounter > 9 ? "+9" : itemsCounter}
-            </Text>
-          </View>
-        )}
-        <Feather
-          style={styles.cartIcon}
-          name="shopping-bag"
-          size={24}
-          color="white"
-        />
-      </TouchableOpacity>
+      {cardQuantityItems! > 0 && (
+        <Link href={"/card"} asChild>
+          <TouchableOpacity style={styles.cart} activeOpacity={0.5}>
+            {itemsCounter > 0 && (
+              <View style={styles.itemsCounter}>
+                <Text style={styles.counter}>
+                  {itemsCounter > 9 ? "+9" : itemsCounter}
+                </Text>
+              </View>
+            )}
+            <Feather
+              style={styles.cartIcon}
+              name="shopping-bag"
+              size={24}
+              color="white"
+            />
+          </TouchableOpacity>
+        </Link>
+      )}
     </View>
   );
 };
@@ -82,5 +109,9 @@ const styles = StyleSheet.create({
     color: "#000",
     fontSize: 10,
     fontFamily: "Inter_700Bold",
+  },
+  titleHeader: {
+    flexDirection: "row",
+    alignItems: "center",
   },
 });

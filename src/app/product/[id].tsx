@@ -1,5 +1,12 @@
-import { View, Text, StyleSheet, Image, FlatList } from "react-native";
-import { useLocalSearchParams, useNavigation } from "expo-router";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  FlatList,
+  ActivityIndicator,
+} from "react-native";
+import { Redirect, useLocalSearchParams, useNavigation } from "expo-router";
 import { PRODUCTS, ProductProps } from "@/src/utils/data/products";
 import { Feather } from "@expo/vector-icons";
 import { Button } from "@/src/components/Button";
@@ -10,11 +17,12 @@ import { useState } from "react";
 export default function Product() {
   const { id } = useLocalSearchParams();
   const cartStore = useCartStore();
-  const product = PRODUCTS.filter((item) => item.id === id)[0];
+  const product = PRODUCTS.find((item) => item.id === id);
   const navigation = useNavigation();
   const [added, setAdded] = useState<Boolean>(false);
+  const [isLoading, setIsLoading] = useState<Boolean>(true);
   const handleAddToCart = (product: ProductProps) => {
-    cartStore.add(product);
+    cartStore.add(product!);
     setAdded(true);
     navigation.goBack();
   };
@@ -24,18 +32,25 @@ export default function Product() {
     currency: "BRL",
   });
 
+  if (!product) {
+    return <Redirect href={"/"} />;
+  }
+
   return (
     <View style={styles.container}>
-      <View style={styles.modalContainer}>
-        <Feather
-          style={styles.addedIcon}
-          name="check-circle"
-          size={60}
-          color="#C3FF53"
-        />
-      </View>
       <View>
-        <Image style={styles.cover} source={product.cover} resizeMode="cover" />
+        {isLoading && (
+          <ActivityIndicator
+            style={styles.imageLoaderIndicator}
+            color={"#C3FF53"}
+          />
+        )}
+        <Image
+          onLoadEnd={() => setIsLoading(false)}
+          style={styles.cover}
+          source={product.cover}
+          resizeMode="cover"
+        />
         <View style={styles.info}>
           <Text style={styles.title}>{product.title}</Text>
           <Text style={styles.price}>{priceFormat.format(product.price)}</Text>
@@ -96,6 +111,12 @@ const styles = StyleSheet.create({
     color: "#FFF",
   },
   cover: {
+    width: "100%",
+    height: 200,
+  },
+  imageLoaderIndicator: {
+    position: "absolute",
+    zIndex: 999,
     width: "100%",
     height: 200,
   },
